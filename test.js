@@ -31,18 +31,36 @@ for(var key in edgePos){
 var point=new THREE.Points(edgeGeometry,new THREE.PointsMaterial({color:0x808080,size:0.1,vertexColors:true}));
 scene.add(point);
 point.position.copy(edgePos[0]);
-var pos=new Array(10);
 const N=10;
-for(var i=0;i<10;i++){
+var pos=new Array(N+1);
+for(var i=0;i<N+1;i++){
 	var t=i/N;
 	pos[i]=new THREE.Vector3();
 	pos[i].addVectors ( edgePos[0].clone().multiplyScalar ( 1-t ),edgePos[1].clone().multiplyScalar ( t ) );
 }
+//line
+var geometry = new THREE.BufferGeometry();
+var positions = new Float32Array((N+1) * 3);
+geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+var array = geometry.attributes.position.array;
+for(var i in pos){
+	console.log(i)
+	array[i*3]=pos[i].x;
+	array[i*3+1]=pos[i].y;
+	array[i*3+2]=pos[i].z;
+	console.log(array[i*3])
+}
+console.log(geometry)
+//geometry.addGroup(0, 1, 0);
+var lMaterial = new THREE.LineBasicMaterial({ color: 0x990000, linewidth : 1});
+var line = new THREE.Line(geometry, lMaterial);
+scene.add(line);
 
 var cnt=0;
 function animate() {
-	if(cnt==10)cnt=0;
+	if(cnt>N)cnt=0;
 	point.position.copy(pos[cnt])
+	line.geometry.setDrawRange(0, cnt);
 	requestAnimationFrame( animate );
 	renderer.render( scene, camera );
 	cnt++;	
