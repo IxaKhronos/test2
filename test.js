@@ -13,9 +13,10 @@ scene.add( axesHelper );
 var edgePos = [
 	new THREE.Vector3(1,1,1),
 	new THREE.Vector3(2,1,2),
-	new THREE.Vector3(2,0,1)
+	new THREE.Vector3(2,0,1),
+	new THREE.Vector3(2,0,2)
 ];
-var col =[0xffff00,0xff00ff,0x00ffff];
+var col =[0xffff00,0xff00ff,0x00ffff,0xffffff];
 
 var edgeGeometry = new THREE.Geometry();
 edgeGeometry.vertices[0] = new THREE.Vector3(0,0,0);
@@ -32,15 +33,22 @@ for(var key in edgePos){
 var point=[
 	new THREE.Points(edgeGeometry,new THREE.PointsMaterial({color:0x808080,size:0.1,vertexColors:true})),
 	new THREE.Points(edgeGeometry,new THREE.PointsMaterial({color:0x808080,size:0.1,vertexColors:true})),
-	new THREE.Points(edgeGeometry,new THREE.PointsMaterial({color:0x808080,size:0.1,vertexColors:true}))
+	new THREE.Points(edgeGeometry,new THREE.PointsMaterial({color:0x808080,size:0.1,vertexColors:true})),	
+	new THREE.Points(edgeGeometry,new THREE.PointsMaterial({color:0x808080,size:0.1,vertexColors:true})),
+	new THREE.Points(edgeGeometry,new THREE.PointsMaterial({color:0x808080,size:0.1,vertexColors:true})),
+	new THREE.Points(edgeGeometry,new THREE.PointsMaterial({color:0x808080,size:0.1,vertexColors:true}))	
 ];
 for(var key in point) scene.add(point[key]);
 
 point[0].position.copy(edgePos[0]);
 point[1].position.copy(edgePos[1]);
-point[2].position.copy(edgePos[0]);
+point[2].position.copy(edgePos[2]);
+point[3].position.copy(edgePos[0]);
+point[4].position.copy(edgePos[1]);
+point[5].position.copy(edgePos[0]);
+
 const N=10;
-var pos=[new Array(N+1),new Array(N+1),new Array(N+1)];
+var pos=[new Array(N+1),new Array(N+1),new Array(N+1),new Array(N+1),new Array(N+1),new Array(N+1)];
 for(var i=0;i<N+1;i++){
 	var t=i/N;
 	pos[0][i]=new THREE.Vector3();
@@ -48,11 +56,22 @@ for(var i=0;i<N+1;i++){
 	pos[1][i]=new THREE.Vector3();
 	pos[1][i].addVectors ( edgePos[1].clone().multiplyScalar ( 1-t ),edgePos[2].clone().multiplyScalar ( t ) );
 	pos[2][i]=new THREE.Vector3();
-	pos[2][i].addVectors ( pos[0][i].clone().multiplyScalar ( 1-t ),pos[1][i].clone().multiplyScalar ( t ) );
+	pos[2][i].addVectors ( edgePos[2].clone().multiplyScalar ( 1-t ),edgePos[3].clone().multiplyScalar ( t ) );
+	
+	pos[3][i]=new THREE.Vector3();
+	pos[3][i].addVectors ( pos[0][i].clone().multiplyScalar ( 1-t ),pos[1][i].clone().multiplyScalar ( t ) );
+	pos[4][i]=new THREE.Vector3();
+	pos[4][i].addVectors ( pos[1][i].clone().multiplyScalar ( 1-t ),pos[2][i].clone().multiplyScalar ( t ) );
+
+	pos[5][i]=new THREE.Vector3();
+	pos[5][i].addVectors ( pos[3][i].clone().multiplyScalar ( 1-t ),pos[4][i].clone().multiplyScalar ( t ) );
 }
 
 //line
 var lineGeometry = [
+new THREE.BufferGeometry(),
+new THREE.BufferGeometry(),
+new THREE.BufferGeometry(),
 new THREE.BufferGeometry(),
 new THREE.BufferGeometry(),
 new THREE.BufferGeometry()
@@ -60,10 +79,14 @@ new THREE.BufferGeometry()
 var lMaterial =[
 	new THREE.LineBasicMaterial({ color: 0x990000, linewidth : 1}),
 	new THREE.LineBasicMaterial({ color: 0x990000, linewidth : 1}),
-	new THREE.LineBasicMaterial({ color: 0x999900, linewidth : 1})
+	new THREE.LineBasicMaterial({ color: 0x990000, linewidth : 1}),
+	
+	new THREE.LineBasicMaterial({ color: 0x999900, linewidth : 1}),
+	new THREE.LineBasicMaterial({ color: 0x999900, linewidth : 1}),
+	new THREE.LineBasicMaterial({ color: 0x999999, linewidth : 1})	
 ]
-var positions =new Array(3);
-var line = new Array(3);
+var positions =new Array(6);
+var line = new Array(6);
 for(var key in lineGeometry){
 	positions[key]=new Float32Array((N+1) * 3);
 	lineGeometry[key].addAttribute('position', new THREE.BufferAttribute(positions[key], 3));
