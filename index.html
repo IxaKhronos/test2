@@ -7,9 +7,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script>
 	<script src="OrbitControls.js"></script>
+	<script src="test.js"></script>
 </head>
 <body>
-	<script src="test.js"></script>
+	<canvas id="myCanvas" width="400" height="400"></canvas>
 	<div style="display:inline-block">
 	<table>
 	<caption></caption>
@@ -17,10 +18,10 @@
 	<tr><th>No</th><th>x</th><th>y</th><th>z</th></tr>
 	</thead>
 	<tbody>
-	<tr><th>0</th><td><input /></td><td><input /></td><td><input /></td></tr>
-	<tr><th>1</th><td><input /></td><td><input /></td><td><input /></td></tr>
-	<tr><th>2</th><td><input /></td><td><input /></td><td><input /></td></tr>
-	<tr><th>3<input type="checkbox" /></th><td><input /></td><td><input /></td><td><input /></td></tr>
+	<tr class="po"><th>0</th><td><input class="x" /></td><td><input class="y" /></td><td><input class="z" /></td></tr>
+	<tr class="po"><th>1</th><td><input class="x" /></td><td><input class="y" /></td><td><input class="z" /></td></tr>
+	<tr class="po"><th>2</th><td><input class="x" /></td><td><input class="y" /></td><td><input class="z" /></td></tr>
+	<tr class="po"><th>3<input type="checkbox" id="ord3" checked /></th><td><input class="x" /></td><td><input class="y" /></td><td><input class="z" /></td></tr>
 	</tbody>
 	</table>
 	</div>
