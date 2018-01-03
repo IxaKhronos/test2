@@ -1,2 +1,3 @@
 body { margin: 0; }
 canvas { z-index:0;}
+.x,.y,.z{width:7em;}
